@@ -3,7 +3,7 @@ package ru.stqa.pft.sandbox;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
-public class SquareTests {
+public class DistanceTests {
 
     @Test
     public void testDistance1(){
