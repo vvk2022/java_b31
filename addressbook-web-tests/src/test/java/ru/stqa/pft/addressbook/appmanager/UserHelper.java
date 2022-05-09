@@ -15,10 +15,10 @@ public class UserHelper extends HelperBase {
     }
 
     public void fillUserForm(UserData userData) {
-        type(By.name(userData.getFirstname()), "test1");
-        type(By.name(userData.getLastname()), "test3");
-        type(By.name(userData.getMobile()), "test9");
-        type(By.name(userData.getEmail()), "test12");
+        type(By.name(userData.getFirstname()), userData.getFirstname());
+        type(By.name(userData.getLastname()), userData.getLastname());
+        type(By.name(userData.getMobile()), userData.getMobile());
+        type(By.name(userData.getEmail()), userData.getEmail());
     }
 
     public void gotoUserPage() {
