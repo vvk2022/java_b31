@@ -24,4 +24,12 @@ public class UserHelper extends HelperBase {
     public void gotoUserPage() {
         click(By.linkText("add new"));
     }
+
+    public void selectUser() {
+        click(By.name("selected[]"));
+    }
+
+    public void deleteSelectedUser() {
+        click(By.xpath("//input[@value='Delete']"));
+    }
 }

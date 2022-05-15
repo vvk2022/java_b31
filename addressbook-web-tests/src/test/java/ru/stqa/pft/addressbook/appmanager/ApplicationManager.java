@@ -44,4 +44,6 @@ public class ApplicationManager {
     public UserHelper getUserHelper() {
         return userHelper;
     }
+
+    public void closeAlert() { wd.switchTo().alert().accept(); }
 }
