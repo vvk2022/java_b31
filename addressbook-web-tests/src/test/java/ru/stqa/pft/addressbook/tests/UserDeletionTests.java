@@ -12,4 +12,5 @@ public class UserDeletionTests extends TestBase {
         app.closeAlert();
         app.getNavigationHelper().gotoHomePage();
     }
+
 }

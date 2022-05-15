@@ -15,10 +15,10 @@ public class UserHelper extends HelperBase {
     }
 
     public void fillUserForm(UserData userData) {
-        type(By.name(userData.getFirstname()), userData.getFirstname());
-        type(By.name(userData.getLastname()), userData.getLastname());
-        type(By.name(userData.getMobile()), userData.getMobile());
-        type(By.name(userData.getEmail()), userData.getEmail());
+        type(By.name("firstname"), userData.getFirstname());
+        type(By.name("lastname"fillUserForm), userData.getLastname());
+        type(By.name("mobile"), userData.getMobile());
+        type(By.name("email"), userData.getEmail());
     }
 
     public void gotoUserPage() {
@@ -31,5 +31,13 @@ public class UserHelper extends HelperBase {
 
     public void deleteSelectedUser() {
         click(By.xpath("//input[@value='Delete']"));
+    }
+
+    public void initUserModification() {
+        click(By.xpath("//img[@alt='Edit']"));
+    }
+
+    public void submitUserModification() {
+        click(By.name("update"));
     }
 }
