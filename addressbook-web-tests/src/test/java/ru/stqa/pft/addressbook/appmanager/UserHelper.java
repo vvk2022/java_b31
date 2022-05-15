@@ -16,7 +16,7 @@ public class UserHelper extends HelperBase {
 
     public void fillUserForm(UserData userData) {
         type(By.name("firstname"), userData.getFirstname());
-        type(By.name("lastname"fillUserForm), userData.getLastname());
+        type(By.name("lastname"), userData.getLastname());
         type(By.name("mobile"), userData.getMobile());
         type(By.name("email"), userData.getEmail());
     }
