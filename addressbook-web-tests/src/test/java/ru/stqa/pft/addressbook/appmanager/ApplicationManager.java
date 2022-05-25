@@ -25,7 +25,6 @@ public class ApplicationManager {
         if(browser.equals(BrowserType.FIREFOX)){
             wd = new FirefoxDriver();
         } else if(browser.equals(BrowserType.CHROME)){
-            System.setProperty("webdriver.chrome.driver","C:\\Users\\user\\Documents\\GitHub\\java_b31\\addressbook-web-tests\\chromedriver.exe");
             wd = new ChromeDriver();
         }
 
