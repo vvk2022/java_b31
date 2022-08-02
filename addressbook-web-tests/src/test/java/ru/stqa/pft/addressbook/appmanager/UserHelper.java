@@ -2,6 +2,8 @@ package ru.stqa.pft.addressbook.appmanager;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.support.ui.Select;
+import org.testng.Assert;
 import ru.stqa.pft.addressbook.model.UserData;
 
 public class UserHelper extends HelperBase {
@@ -14,11 +16,17 @@ public class UserHelper extends HelperBase {
         wd.findElement(By.xpath("//div[@id='content']/form/input[21]")).click();
     }
 
-    public void fillUserForm(UserData userData) {
+    public void fillUserForm(UserData userData, boolean creation) {
         type(By.name("firstname"), userData.getFirstname());
         type(By.name("lastname"), userData.getLastname());
         type(By.name("mobile"), userData.getMobile());
         type(By.name("email"), userData.getEmail());
+
+        if(creation){
+            new Select(wd.findElement(By.name("new_group"))).selectByVisibleText(userData.getGroup());
+        } else{
+            Assert.assertFalse(isElementPresent(By.name("new_group")));
+        }
     }
 
     public void gotoUserPage() {

@@ -5,7 +5,7 @@ public class MyFirstProgram {
         Point startPoint = new Point(10, 10);
         Point endPoint = new Point(15, 10);
 
-        System.out.println("Distance between start point and end point is: " + startPoint.distance(endPoint));
+        System.out.println("Distance between start point and end point is: " + startPoint.distance(endPoint)); 
     }
 
 }
