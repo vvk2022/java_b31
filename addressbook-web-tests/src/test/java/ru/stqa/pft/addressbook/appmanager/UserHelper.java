@@ -48,4 +48,19 @@ public class UserHelper extends HelperBase {
     public void submitUserModification() {
         click(By.name("update"));
     }
+
+    public boolean isThereAUser() {
+        return(isElementPresent(By.name("entry")));
+    }
+
+    public void createUser(UserData userData) {
+        gotoUserPage();
+        fillUserForm(userData, true);
+        submitUserCreation();
+        gotoHomePage();
+    }
+
+    private void gotoHomePage() {
+        click(By.linkText("home"));
+    }
 }
