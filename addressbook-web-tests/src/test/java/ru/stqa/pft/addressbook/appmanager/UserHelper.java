@@ -6,8 +6,8 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.Select;
 import org.testng.Assert;
 import ru.stqa.pft.addressbook.model.UserData;
+import ru.stqa.pft.addressbook.model.Users;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class UserHelper extends HelperBase {
@@ -37,16 +37,20 @@ public class UserHelper extends HelperBase {
         click(By.linkText("add new"));
     }
 
-    public void selectUser(int index) {
-        wd.findElements(By.name("selected[]")).get(index).click();
-    }
-
     public void deleteSelectedUser() {
         click(By.xpath("//input[@value='Delete']"));
     }
 
-    public void initUserModification(int index) {
-        wd.findElements(By.xpath("//img[@alt='Edit']")).get(index).click();
+    public void modify(UserData user) {
+        initUserModificationById(user.getId());
+        fillUserForm(user, false);
+        submitUserModification();
+        gotoHomePage();
+    }
+
+    public void initUserModificationById(int id) {
+//        wd.findElements(By.xpath("//img[@alt='Edit']")).get(index).click();
+        wd.findElement(By.xpath("//a[@href='edit.php?id=" + id + "']")).click();
     }
 
     public void submitUserModification() {
@@ -57,32 +61,43 @@ public class UserHelper extends HelperBase {
         return(isElementPresent(By.name("entry")));
     }
 
-    public void createUser(UserData userData) {
+    public void create(UserData userData) {
         gotoUserPage();
         fillUserForm(userData, true);
         submitUserCreation();
-        gotoHomePage();
     }
 
     private void gotoHomePage() {
         click(By.linkText("home"));
     }
 
+    public void closeAlert() { wd.switchTo().alert().accept(); }
+
     public int getUserCount() {
         return wd.findElements(By.name("selected[]")).size();
     }
 
-    public List<UserData> getUserList() {
-        List<UserData> users = new ArrayList<UserData>();
+    public Users all() {
+        Users users = new Users();
         List<WebElement> elements = wd.findElements(By.name("entry"));
         for(WebElement element : elements) {
             String[] userrecord = element.getText().split(" ");
             String lastname = userrecord[0];
             String firstname = userrecord[1];
             int id = Integer.parseInt(element.findElement(By.tagName("input")).getAttribute("value"));
-            UserData user = new UserData(id, firstname, lastname, null, null, null);
-            users.add(user);
+            users.add(new UserData().withId(id).withFirstname(firstname).withLastname(lastname));
         }
         return users;
+    }
+
+    public void delete(UserData user) {
+        selectUserbyId(user.getId());
+        deleteSelectedUser();
+        closeAlert();
+        gotoHomePage();
+    }
+
+    private void selectUserbyId(int id) {
+        wd.findElement(By.cssSelector("input[value='" + id +"']")).click();
     }
 }

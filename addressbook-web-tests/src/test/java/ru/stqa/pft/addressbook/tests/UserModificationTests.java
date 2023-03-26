@@ -1,34 +1,40 @@
 package ru.stqa.pft.addressbook.tests;
 
+import org.hamcrest.CoreMatchers;
+import org.hamcrest.MatcherAssert;
 import org.testng.Assert;
+import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 import ru.stqa.pft.addressbook.model.UserData;
+import ru.stqa.pft.addressbook.model.Users;
 
 import java.util.Comparator;
-import java.util.HashSet;
-import java.util.List;
+import java.util.Set;
+
+import static org.hamcrest.CoreMatchers.equalTo;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.testng.Assert.assertEquals;
 
 public class UserModificationTests extends TestBase {
 
-    @Test
+    @BeforeMethod
+    public void ensurePreconditions () {
+        app.returnToHomePage();
+        if (app.user().all().size() == 0) {
+            app.user().create(new UserData().withFirstname("test1").withLastname("test2"));
+        }
+    }
+
+    @Test (enabled = true)
     public void testUserModification() {
         app.returnToHomePage();
-        if (!app.getUserHelper().isThereAUser()) {
-            app.getUserHelper().createUser(new UserData("test1", "test2", "test3", null, "[none]"));
-        }
-        List<UserData> before = app.getUserHelper().getUserList();
-        app.getUserHelper().initUserModification(before.size() - 1);
-        UserData user = new UserData(before.get(before.size()-1).getId(), "firstname_modified", "lastname_modified", "mobile_modified", "email_modified", null);
-        app.getUserHelper().fillUserForm(user, false);
-        app.getUserHelper().submitUserModification();
-        app.returnToHomePage();
-        List<UserData> after = app.getUserHelper().getUserList();
-
-        before.remove(before.size() - 1);
-        before.add(user);
-        Comparator<? super UserData> byId = (u1, u2) -> Integer.compare(u1.getId(), u2.getId());
-        before.sort(byId);
-        after.sort(byId);
-        Assert.assertEquals(before, after);
+        Users before = app.user().all();
+        UserData modifiedUser = before.iterator().next();
+        UserData user = new UserData()
+                .withId(modifiedUser.getId()).withFirstname("firstname_modified").withLastname("lastname_modified").withMobile("mobile_modified").withEmail("email_modified");
+        app.user().modify(user);
+        Users after = app.user().all();
+        assertEquals(after.size(), before.size());
+        assertThat(after, equalTo(before.withOut(modifiedUser).withAdded(user)));
     }
 }
